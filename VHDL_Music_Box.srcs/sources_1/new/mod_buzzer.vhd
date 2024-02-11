@@ -2,15 +2,11 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.NUMERIC_STD.ALL;
+use IEEE.math_real.all;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+-- Midi note / key number reference:
+-- https://computermusicresource.com/midikeys.html
 
 entity mod_buzzer is
     generic (
@@ -25,12 +21,19 @@ entity mod_buzzer is
 end mod_buzzer;
 
 architecture Behavioral of mod_buzzer is
+    -- Formula (midi note to frequeny): f = 2^((n - 69) / 12) * 440
+    function midi_to_hz(note_number: integer) return integer is
+        constant a4_hz: integer := 440;
+    begin
+        return 2 ** ((note_number - 69) / 12) * a4_hz;
+    end function midi_to_hz;
 begin
     process (clk)
         variable i: integer := 0;
     begin
         if rising_edge(clk) then
-            if i = (CLK_HZ / A_2) / 2 then
+            -- Halve the number here to get half a period.
+            if i = (CLK_HZ / midi_to_hz(69)) / 2 then
                 i := 0;
                 JA1 <= not JA1;
             else
