@@ -8,7 +8,7 @@ use IEEE.math_real.all;
 -- Midi note / key number reference:
 -- https://computermusicresource.com/midikeys.html
 
-entity mod_buzzer is
+entity dp_midi_sqwv is
     generic (
         CLK_HZ: integer := 100 * 1000000;
         A_2: integer := 440
@@ -19,9 +19,9 @@ entity mod_buzzer is
         signal JA1: inout std_logic;
         signal sw_0: in std_logic
     );
-end mod_buzzer;
+end dp_midi_sqwv;
 
-architecture Behavioral of mod_buzzer is
+architecture Behavioral of dp_midi_sqwv is
     -- Formula (midi note to frequency): f = 2^((n - 69) / 12) * 440
     function midi_to_hz(note_number: integer) return integer is
         constant a4_hz: integer := 440;
