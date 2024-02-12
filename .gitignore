@@ -43,6 +43,7 @@
 .jobs
 
 *.runs/
+*.sim/
 
 ### project synth
 */*.runs/synth*/*.xml
