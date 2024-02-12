@@ -1,43 +1,16 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 12.02.2024 10:55:07
--- Design Name: 
--- Module Name: cp_fsm_1 - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 entity cp_fsm_1 is
---  Port ( );
+    port (
+        signal clk: in std_logic;
+        signal JA1: inout std_logic;
+        signal sw_0: in std_logic
+    );
 end cp_fsm_1;
 
 architecture Behavioral of cp_fsm_1 is
-
 begin
-
-
+   mod_midi_sqwv: entity work.dp_midi_sqwv(Behavioral)
+       port map(clk => clk, JA1 => JA1, sw_0 => sw_0, note => 90);
 end Behavioral;

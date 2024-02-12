@@ -17,7 +17,8 @@ entity dp_midi_sqwv is
     port (
         signal clk: in std_logic;
         signal JA1: inout std_logic;
-        signal sw_0: in std_logic
+        signal sw_0: in std_logic;
+        signal note: in integer
     );
 end dp_midi_sqwv;
 
@@ -36,7 +37,6 @@ architecture Behavioral of dp_midi_sqwv is
 begin
     process (clk)
         variable i: integer := 0;
-        variable note: integer := 90;
         variable toggle: boolean := false;
     begin
         if rising_edge(clk) then
@@ -51,7 +51,7 @@ begin
             -- Check switch
             if sw_0 = '1' and toggle = false then
                 toggle := true;
-                note := 69;
+                -- note := 69;
             end if;
         end if;
     end process;
