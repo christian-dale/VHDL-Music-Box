@@ -23,23 +23,17 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity db_uart_rx is
-	Port (	Serial_in : in STD_LOGIC;
-			ascii_out : out STD_LOGIC_VECTOR (7 downto 0);
-			rx_done : out STD_LOGIC;
-			rd : in STD_LOGIC));
-end dp_uart_rx;
+entity db_baudrate_gen is
+	Port (	clk : in STD_LOGIC;
+			rd : out STD_LOGIC));
+end dp_baudrate_gen;
 
-architecture Behavioral of db_uart_rx is
+architecture Behavioral of db_baudrate_gen is
 	-- Local variables and functions
-	signal data : STD_LOGIC_VECTOR(7 downto 0);
-	signal counter : INTEGER(0 to 15);
 begin
 	-- Actual behavior of Module
-	process(rd) 
+	process(clk) 
 	begin
-		if rising_edge(rd) then -- It will only do things when this counter ticks
-			-- Wait, this is an FSM. It has an idle state, a receive state and an end state.
-		end if;
+		-- It's supposed to count to a sixteenth of the baudrate to give an oversampling rate of 16. The UART will handle the logic of what to do with this frequency.
 	end process;
 end Behavioral;
