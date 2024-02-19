@@ -10,15 +10,14 @@ use IEEE.math_real.all;
 
 entity dp_midi_sqwv is
     generic (
-        CLK_HZ: integer := 100 * 1000000;
+        CLK_HZ: integer := 100_000_000; -- 100 MHz
         A_2: integer := 440
     );
 
     port (
-        signal clk: in std_logic;
-        signal JA1: inout std_logic;
-        signal sw_0: in std_logic;
-        signal note: in integer
+        clk: in std_logic;
+        JA1: inout std_logic;
+        note: in integer
     );
 end dp_midi_sqwv;
 
@@ -37,7 +36,6 @@ architecture Behavioral of dp_midi_sqwv is
 begin
     process (clk)
         variable i: integer := 0;
-        variable toggle: boolean := false;
     begin
         if rising_edge(clk) then
             -- Halve the number here to get half a period.
@@ -46,12 +44,6 @@ begin
                 JA1 <= not JA1;
             else
                 i := i + 1;
-            end if;
-            
-            -- Check switch
-            if sw_0 = '1' and toggle = false then
-                toggle := true;
-                -- note := 69;
             end if;
         end if;
     end process;

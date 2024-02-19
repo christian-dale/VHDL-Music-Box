@@ -77,3 +77,38 @@ begin
 		end if;
 	end process;
 end Behavioral;
+
+-- library IEEE;
+-- use IEEE.STD_LOGIC_1164.ALL;
+
+-- entity dp_uart_rx is
+--     port (
+--         clk: in std_logic;
+--         RsRx: in std_logic;
+--         led_0: out std_logic
+--     );
+-- end dp_uart_rx;
+
+-- architecture Behavioral of dp_uart_rx is
+-- begin
+--     process (clk)
+--         variable i: natural := 0;
+--         variable start_bit_received: boolean := false;
+--     begin
+--         if rising_edge(clk) then
+--             if i = 100_000_000 / 9600 then
+--                 --if falling_edge(RsRx) then
+--                     --start_bit_received := true;
+--                 --end if;
+                
+--                 if start_bit_received = true then
+--                     -- led_0 <= '1';
+--                 end if;
+                
+--                 i := 0;
+--             else
+--                 i := i + 1;
+--             end if;
+--         end if;
+--     end process;
+-- end Behavioral;
