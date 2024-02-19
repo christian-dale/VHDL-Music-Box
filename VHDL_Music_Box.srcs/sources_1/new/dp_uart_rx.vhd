@@ -34,7 +34,8 @@ architecture Behavioral of db_uart_rx is
 	-- Local variables and functions
 	type stateType is (idle_st, read_st, end_st);
 	signal data : STD_LOGIC_VECTOR(7 downto 0);
-	signal counter : INTEGER(0 to 15);
+	signal data_index : INTEGER(0 to 8) := 0;
+	signal counter : INTEGER(0 to 15) := 0;
 	signal state : stateType := idle_st;
 begin
 	-- Actual behavior of Module
@@ -43,10 +44,35 @@ begin
 		if rising_edge(rd) then -- It will only do things when this counter ticks
 			case state is -- Checks the current state
 				when idle_st =>
-					if data = '1' then
-					elsif data 
+					if Serial_in = '1' then -- Breaks without doing anything
+						counter := 0; -- Makes sure the counter is reset, if something goes wrong in transmission
+					elsif Serial_in = '0' then
+						if counter != '7' then
+							counter := counter +1; -- Counts to the middle of the bit
+							
+						elsif counter = '7' then -- When at the middle of the bit,
+							counter := '0'; -- we reset the counter,
+							state := read_st; -- and enter the actual read state.
+						end if;
+					end if;
+					
 				when read_st =>
+					if data_index = 8 then -- If we're outside the data vector
+						stateType := end_st; -- we enter the end state
+						data_index := 0; -- and reset the index for the next round.
+					else then
+						if counter = 15 then -- If we're in the middle of the data bit,
+							data(data_index) := Serial_in; -- we read the data bit to the vector,
+							data_index := data_index +1; -- increment the index,
+							counter := 0; -- and reset the counter.
+						else then
+						counter := counter +1; -- If we're not in the middle of the bit, we just count up one.
+						end if;
+					end if;
+					
 				when end_st =>
+					if we 
+					
 			end case;
 		end if;
 	end process;
