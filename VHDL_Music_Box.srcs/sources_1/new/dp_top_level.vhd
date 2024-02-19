@@ -12,10 +12,11 @@ entity top_module is
     );
     port ( 
         clk:        in std_logic;
-        rst:        in std_logic;
         play:       in std_logic;
         Rx:         in std_logic;
+        rst :       in  STD_LOGIC; -- TO DO: Double check this
         sqwv_out:   out std_logic
+
         );
 end top_module;
 
@@ -24,31 +25,59 @@ signal s_tick: std_logic; -- baud rate counter for UART receiver
 signal uart_data: std_logic_vector(DATA_WIDTH-1 downto 0); -- ASCII code sent from UART_Rx
 signal Rx_done: std_logic; -- UART_Rx signalling bit received
 signal inc_A, clr_A: std_logic; -- CP sending instructions to address counter
-signal write: std_logic; -- CP instructing RAM to write ASCII to address
+signal wr: std_logic; -- CP instructing RAM to write ASCII to address
 signal ram_data: std_logic_vector(DATA_WIDTH-1 downto 0); -- data sendt from RAM
 signal address: std_logic_vector(ADDR_WIDTH-1 downto 0); -- Address information sendt from counter to RAM
 signal midi_data: std_logic_vector(MIDI_WIDTH-1 downto 0); -- Code converter sending to Sqwv generator
 signal clear_FF: std_logic; -- CP sending clear to Midi Sqwv generator
 signal sqwv_data: std_logic; -- Square wave signal sent to speaker
+signal mute: std_logic; -- TO DO: Double check this in arch/ASMD
 
 ----------------------------------------------------------------------------------
 begin
-
+-- Remember! Port=>Signal
 -- TO DO: Fill in UART and UART mod m counter modules (modules 1 and 2 below) once they have been designed
 
 -- Instatiating Baud rate generator for the UART receiver
-    mod_m_uart_unit: entity work.module1(arch)
-        port map (  clk=>clk, rst=>rst, ... );
+--    mod_m_uart_unit: entity work.module1(arch)
+--        port map (  clk=>clk, rst=>rst);
 
 -- Instatiating UART receiver
-    module2: entity work.module2(arch)
-        port map (  clk=>clk, rst=>rst, ... );
+--    module2: entity work.module2(arch)
+--        port map (  clk=>clk, rst=>rst );
 					
+--- Inistatiate address counter for RAM
+    dp_address_generator_unit: entity work.dp_address_generator(arch)
+        port map (clk=>clk, inc_A=>inc_A, clr_A=>clr>A, address=>address); 					
+										
+-- Instatiate RAM
+    dp_ram_unit: entity work.dp_ram(arch)
+        port map (  clk=>clk, address=>address, ram_ascii_in=>uart_data, ram_data=>ram_ascii_out);
+        
 -- Instatiate address counter
     address_counter_unit: entity work.module3(arch)
         port map (  clk=>clk, rst=>rst, ... );
-
+        
+-- Instatiate address counter
+    address_counter_unit: entity work.module3(arch)
+        port map (  clk=>clk, rst=>rst, ... );
+       
+-- Instatiate address counter
+    address_counter_unit: entity work.module3(arch)
+        port map (  clk=>clk, rst=>rst, ... );
+        
+-- Instatiate address counter
+    address_counter_unit: entity work.module3(arch)
+        port map (  clk=>clk, rst=>rst, ... );
+        
+-- Instatiate address counter
+    address_counter_unit: entity work.module3(arch)
+        port map (  clk=>clk, rst=>rst, ... );
 -- other statements at the top level
 ... <= ...;
+    
+    
+    
+    
     
 end arch;
