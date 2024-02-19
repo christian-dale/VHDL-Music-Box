@@ -32,14 +32,22 @@ end dp_uart_rx;
 
 architecture Behavioral of db_uart_rx is
 	-- Local variables and functions
+	type stateType is (idle_st, read_st, end_st);
 	signal data : STD_LOGIC_VECTOR(7 downto 0);
 	signal counter : INTEGER(0 to 15);
+	signal state : stateType := idle_st;
 begin
 	-- Actual behavior of Module
 	process(rd) 
 	begin
 		if rising_edge(rd) then -- It will only do things when this counter ticks
-			-- Wait, this is an FSM. It has an idle state, a receive state and an end state.
+			case state is -- Checks the current state
+				when idle_st =>
+					if data = '1' then
+					elsif data 
+				when read_st =>
+				when end_st =>
+			end case;
 		end if;
 	end process;
 end Behavioral;
