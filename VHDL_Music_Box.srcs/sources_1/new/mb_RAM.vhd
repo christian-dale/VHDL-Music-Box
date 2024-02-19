@@ -25,7 +25,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity dp_ram is
     Port ( ascii_in : in STD_LOGIC_VECTOR (7 downto 0);
-           wr_ram : in STD_LOGIC; -- Whether to write to RAM or not
+           wr : in STD_LOGIC; -- Whether to write to RAM or not
            address : in STD_LOGIC_VECTOR (9 downto 0); -- Where are we?
 		   clk: in STD_LOGIC;
 		   ascii_out : out STD_LOGIC_VECTOR (7 downto 0));
@@ -38,7 +38,7 @@ begin
 	process(clk)
 	begin
 		if rising_edge(clk) then
-			if wr_ram = '1' then
+			if wr = '1' then
 				RAM(to_integer(unsigned(address))) <= ascii_in;
 			end if;
 			ascii_out <= RAM(conv_integer(address));
